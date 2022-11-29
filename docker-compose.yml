@@ -1,0 +1,22 @@
+version: '3.7'
+
+volumes:
+  matomo_database_data:
+
+services:
+  matomo_database:
+    image: mariadb
+    restart: unless-stopped
+    volumes:
+      - matomo_database_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=your-secret-root-password
+      - MYSQL_PASSWORD=your-secret-password
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo
+
+  matomo:
+    image: auchri/docker-nginx-matomo
+    restart: unless-stopped
+    ports:
+      - '80:80'
